@@ -1,10 +1,10 @@
 {
-    "name": "Capsule Corp.",
-    "short_name": "CapsuleCorp.",
+    "name": "© Capsule Corp.",
+    "short_name": "© Capsule Corp.",
     "start_url": "index.html",
     "display": "standalone",
     "background_color": "#1a1a1a",
-    "theme_color": "#2b2b2b",
+    "theme_color": "#222222",
     "orientation": "portrait",
     "icons": [
       {
