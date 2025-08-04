@@ -1,6 +1,6 @@
 {
-    "name": "© Capsule Corp.",
-    "short_name": "©CapsuleCorp.",
+    "name": "Capsule Corp.",
+    "short_name": "CapsuleCorp.",
     "start_url": "index.html",
     "display": "standalone",
     "background_color": "#1a1a1a",
