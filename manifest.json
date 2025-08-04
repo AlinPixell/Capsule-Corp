@@ -3,7 +3,7 @@
     "short_name": "© Capsule Corp.",
     "start_url": "index.html",
     "display": "standalone",
-    "background_color": "#1a1a1a",
+    "background_color": "#222222",
     "theme_color": "#222222",
     "orientation": "portrait",
     "icons": [
