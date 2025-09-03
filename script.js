@@ -155,6 +155,7 @@ if (formElement) {
 
 // ✅ Update power level (total minutes logged)
 document.getElementById("power-level").textContent = calculateTotalMinutes();
+document.getElementById("ki-control").textContent = trainingData.ki;
 
 
 
