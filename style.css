@@ -37,6 +37,26 @@ h1, h2, h3 {
   transition: all 0.1s ease;
 }
 
+/* Add this new CSS to your style.css file */
+.card-content {
+display: flex;
+justify-content: space-between; /* Pushes content and image to opposite ends */
+align-items: center; /* Vertically centers items */
+gap: 1rem; /* Adds space between the text and the image */
+}
+
+/* Style the image to fit nicely within the layout */
+#form-image {
+width: 100%;
+max-width: 150px; /* Adjust as needed */
+height: auto;
+}
+
+/* You might want to remove the extra spacing from the original HTML */
+.card br:last-of-type {
+display: none;
+}
+
 .card:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
