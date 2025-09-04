@@ -53,9 +53,9 @@ height: auto;
 }
 
 /* You might want to remove the extra spacing from the original HTML */
-.card br:last-of-type {
+/* .card br:last-of-type {
 display: none;
-}
+} */
 
 .card:hover {
   transform: translateY(-2px);
