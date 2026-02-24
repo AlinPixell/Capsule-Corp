@@ -224,8 +224,7 @@ function logKi() {
 
   trainingData.ki = Math.min(100, trainingData.ki + mins);
 
-  // store object with timestamp for consistent history
-  kiHistory.push({ amount: mins, timestamp: new Date().toISOString() });
+  kiHistory.push(mins);
   localStorage.setItem('kiHistory', JSON.stringify(kiHistory));
 
   updateUI();
@@ -300,8 +299,7 @@ function undoKi() {
   if (kiHistory.length === 0) return alert('No Ki logs to undo.');
 
   const lastKi = kiHistory.pop();
-  const amount = lastKi.amount !== undefined ? lastKi.amount : lastKi;
-  trainingData.ki = Math.max(0, trainingData.ki - amount);
+  trainingData.ki = Math.max(0, trainingData.ki - lastKi);
 
   localStorage.setItem('kiHistory', JSON.stringify(kiHistory));
   updateUI();
@@ -378,49 +376,77 @@ function renderHistoryLogs() {
   const historyList = document.getElementById('history-list');
   if (!historyList) return;
 
+  function getLogDate(log) {
+    if (log.date) return formatDate(log.date);
+    if (log.timestamp) return formatDate(log.timestamp);
+    return formatDate(new Date());
+  }
+
   function formatDate(date) {
     const d = new Date(date);
     if (isNaN(d)) return 'Invalid Date';
     return d.toISOString().split('T')[0];
   }
 
-  // collect everything into a unified list
-  const combined = [];
+  function groupByDate(logs) {
+    return logs.reduce((acc, log) => {
+      const date = getLogDate(log);
+      if (!acc[date]) acc[date] = [];
+      acc[date].push(log);
+      return acc;
+    }, {});
+  }
 
-  trainingHistory.forEach(log => {
-    const date = formatDate(log.date || log.timestamp || new Date());
-    combined.push({ date, text: `${log.type || 'Training'} - ${log.mins || '?'} mins` });
-  });
+  // --- Training Logs ---
+  const trainingCount = trainingHistory.length;
+  const trainingByDate = groupByDate(trainingHistory);
 
-  kiHistory.forEach(entry => {
-    const date = formatDate(entry.date || entry.timestamp || new Date());
-    const amount = entry.amount !== undefined ? entry.amount : (typeof entry === 'number' ? entry : '?');
-    combined.push({ date, text: `Ki +${amount}` });
-  });
+  let html = `<h3>Training Logs History (Total ${trainingCount} entries)</h3>`;
 
-  Object.keys(supplementData).forEach(date => {
-    supplementData[date].forEach(supp => {
-      combined.push({ date, text: `Supplement - ${supp}` });
-    });
-  });
-
-  const byDate = combined.reduce((acc, item) => {
-    if (!acc[item.date]) acc[item.date] = [];
-    acc[item.date].push(item.text);
-    return acc;
-  }, {});
-
-  let html = '<h3>Activity History</h3>';
-  Object.keys(byDate)
+  Object.keys(trainingByDate)
     .sort((a, b) => b.localeCompare(a))
     .forEach(date => {
       html += `<p style="margin-top:1rem; font-weight:bold;">${date}</p>`;
       html += '<ol style="margin-top:0; padding-left:20px;">';
-      byDate[date].forEach(text => {
-        html += `<li>${text}</li>`;
+      trainingByDate[date].forEach(log => {
+        const type = log.type || 'Unknown Type';
+        const mins = log.mins !== undefined ? log.mins : '?';
+        html += `<li>${type} - ${mins} mins</li>`;
       });
       html += '</ol>';
     });
+
+  // --- Ki Logs ---
+  const kiCount = kiHistory.length;
+  const kiByDate = groupByDate(kiHistory);
+
+  html += `<h3>Ki Logs History (Total ${kiCount} entries)</h3>`;
+
+  Object.keys(kiByDate)
+    .sort((a, b) => b.localeCompare(a))
+    .forEach(date => {
+      html += `<p style="margin-top:1rem; font-weight:bold;">${date}</p>`;
+      html += '<ol style="margin-top:0; padding-left:20px;">';
+      kiByDate[date].forEach(log => {
+        const amount = log.amount !== undefined ? log.amount : (typeof log === 'number' ? log : '?');
+        const typeText = log.type ? ` (${log.type})` : '';
+        html += `<li>+${amount} Ki${typeText}</li>`;
+      });
+      html += '</ol>';
+    });
+
+  // --- Supplement Logs ---
+  const supplementDates = Object.keys(supplementData).sort((a, b) => b.localeCompare(a));
+  html += `<h3>Supplement Logs</h3>`;
+
+  supplementDates.forEach(date => {
+    html += `<p style="margin-top:1rem; font-weight:bold;">${date}</p>`;
+    html += '<ol style="margin-top:0; padding-left:20px;">';
+    supplementData[date].forEach(supp => {
+      html += `<li>${supp}</li>`;
+    });
+    html += '</ol>';
+  });
 
   historyList.innerHTML = html;
 }
