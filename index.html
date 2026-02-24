@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- === STYLE === -->
   <link rel="stylesheet" href="style.css">
@@ -14,44 +15,51 @@
   <title>© Capsule Corp.</title>
 
 </head>
+
 <body>
   <div class="container">
-    <h1>Capsule Corp</h1>
+    <h1>© Capsule Corp</h1>
 
     <!-- === DASHBOARD === -->
     <div class="dashboard">
       <!-- Power + Ki Info -->
       <div class="card">
         <div class="card-content">
-            <div>
-                <strong class="dash-title">Power Level</strong><br>
-                <span id="power-level">0</span><br><br>
-                <span class="dash-title">Form </span><span id="level">1</span><br/>
-                <span id="form">Base Form</span><br/><br/>
-                <strong class="dash-title">Ki Control</strong><br />
-                <span id="ki-control">0</span> / 100
-            </div>
-            
-            <img id="form-image" src="forms-imgs/base_form.png" alt="Current Form">
+          <div>
+            <strong class="dash-title">Power Level</strong><br>
+            <span id="power-level">0</span><br><br>
+            <span class="dash-title">Form </span><span id="level">1</span><br />
+            <span id="form">Base Form</span><br /><br />
+            <strong class="dash-title">Ki Control</strong><br />
+            <span id="ki-control">0</span> / 100
+          </div>
+
+          <img id="form-image" src="forms-imgs/base_form.png" alt="Current Form">
         </div>
-    </div>
+      </div>
 
       <!-- Progress Bars -->
       <div class="card">
         <strong>Upper Body</strong>
         <small class="hours-progress" id="UpperBody-hours">0 / <strong>720</strong></small>
         <small id="UpperBody-level">Level : <strong>1</strong></small>
-        <div class="progress-bar"><div id="UpperBody-progress" class="progress-bar-inner"></div></div><br/>
+        <div class="progress-bar">
+          <div id="UpperBody-progress" class="progress-bar-inner"></div>
+        </div><br />
 
         <strong>Core</strong>
         <small class="hours-progress" id="Core-hours">0 / <strong>720</strong></small>
         <small id="Core-level">Level : <strong>1</strong></small>
-        <div class="progress-bar"><div id="Core-progress" class="progress-bar-inner"></div></div><br/>
+        <div class="progress-bar">
+          <div id="Core-progress" class="progress-bar-inner"></div>
+        </div><br />
 
         <strong>Lower Body</strong>
         <small class="hours-progress" id="LowerBody-hours">0 / <strong>720</strong></small>
         <small id="LowerBody-level">Level : <strong>1</strong></small>
-        <div class="progress-bar"><div id="LowerBody-progress" class="progress-bar-inner"></div></div>
+        <div class="progress-bar">
+          <div id="LowerBody-progress" class="progress-bar-inner"></div>
+        </div>
       </div>
     </div>
 
@@ -69,7 +77,8 @@
         <div style="display: flex; gap: 10px; align-items: center; margin-top: 10px;">
           <input type="number" id="training-mins" placeholder="Minutes" style="flex: 1; min-width: 100px;" />
           <button onclick="logTraining()">Log Train</button>
-          <button type="button" onclick="undoTraining()" style="width: 60px; height: 35px;"><i class="bi bi-arrow-clockwise"></i></button>
+          <button type="button" onclick="undoTraining()" style="width: 60px; height: 35px;"><i
+              class="bi bi-arrow-clockwise"></i></button>
         </div>
       </div>
 
@@ -84,7 +93,8 @@
         <div style="display: flex; gap: 10px; align-items: center; margin-top: 10px;">
           <input type="number" id="ki-mins" placeholder="Minutes" style="flex: 1; min-width: 100px;" />
           <button onclick="logKi()">Log Ki</button>
-          <button type="button" onclick="undoKi()" style="width: 60px; height: 35px;"><i class="bi bi-arrow-clockwise"></i></button>
+          <button type="button" onclick="undoKi()" style="width: 60px; height: 35px;"><i
+              class="bi bi-arrow-clockwise"></i></button>
         </div>
       </div>
 
@@ -94,29 +104,30 @@
         <div style="display: flex; gap: 10px; align-items: center; margin: 10px 0;">
           <input type="text" id="supplement-name" placeholder="Supplement Name" />
           <button onclick="logSupplement()">Add</button>
-          <button type="button" onclick="undoSupplement()" style="width: 60px; height: 35px;"><i class="bi bi-arrow-clockwise"></i></button>
+          <button type="button" onclick="undoSupplement()" style="width: 60px; height: 35px;"><i
+              class="bi bi-arrow-clockwise"></i></button>
         </div>
         <div id="supplement-log"></div>
       </div>
-    
-  </div>
-  <!-- === HISTORY MODAL BUTTON === -->
-  <div style="text-align: center; margin: 30px 0;">
-    <button onclick="toggleHistoryModal()" class="danger-button">
-      <i class="bi bi-clock-history"></i> History
-    </button>
-  </div>
-</div>
 
-<!-- History Modal -->
-<div id="history-modal" class="modal" style="display:none;">
+    </div>
+    <!-- === HISTORY MODAL BUTTON === -->
+    <div style="text-align: center; margin: 30px 0;">
+      <button onclick="toggleHistoryModal()" class="danger-button">
+        <i class="bi bi-clock-history"></i> History
+      </button>
+    </div>
+  </div>
+
+  <!-- History Modal -->
+  <div id="history-modal" class="modal" style="display:none;">
     <div class="modal-content" onclick="event.stopPropagation()">
       <span class="close" onclick="toggleHistoryModal()">&times;</span>
       <h2>History</h2>
       <div id="history-list" class="history-list"></div>
-      <br/>
+      <br />
       <div class="modal-buttons">
-          <button onclick="importData()">Import Data</button>
+        <button onclick="importData()">Import Data</button>
       </div>
       <div class="export-buttons">
         <button onclick="exportData('json')">Export as JSON</button>
@@ -124,15 +135,16 @@
       </div>
       <div class="modal-buttons">
         <button onclick="resetAllData()">Reset All Data</button>
-    </div>
-      
+      </div>
+
     </div>
   </div>
-  
-</div>
 
-<!-- === SCRIPT === -->
-<script src="script.js"></script>
+  </div>
+
+  <!-- === SCRIPT === -->
+  <script src="script.js"></script>
 
 </body>
+
 </html>

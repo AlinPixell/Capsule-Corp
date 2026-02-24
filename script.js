@@ -34,7 +34,7 @@ const SAIYAN_FORMS = [
   "Kayoken",
   "Super Saiyan",
   "Super Saiyan III",
-  "Super Saiyan GT",  
+  "Super Saiyan GT",
   "Super Saiyan God",
   "Super Saiyan God Blue",
   "Ultra Instinct",
@@ -164,8 +164,8 @@ function updateUI() {
 
   const formImageElement = document.getElementById("form-image");
   if (formImageElement) {
-      const imagePath = FORM_IMAGES[currentForm] || "base_form.png";
-      formImageElement.src = imagePath;
+    const imagePath = FORM_IMAGES[currentForm] || "base_form.png";
+    formImageElement.src = imagePath;
   }
 
   document.getElementById("power-level").textContent = calculateTotalMinutes();
@@ -254,21 +254,21 @@ function startKiDecay() {
   const lastTime = new Date(lastKiDecayTimestamp);
 
   if (lastKiDecayTimestamp) {
-      const minutesPassed = (now - lastTime) / (1000 * 60);
-      const decayAmount = Math.floor(minutesPassed / 10);
-      trainingData.ki = Math.max(0, trainingData.ki - decayAmount);
+    const minutesPassed = (now - lastTime) / (1000 * 60);
+    const decayAmount = Math.floor(minutesPassed / 10);
+    trainingData.ki = Math.max(0, trainingData.ki - decayAmount);
   }
-  
+
   localStorage.setItem('lastKiDecayTimestamp', now.toISOString());
   lastKiDecayTimestamp = now.toISOString();
 
   setInterval(() => {
-      if (trainingData.ki > 0) {
-          trainingData.ki = Math.max(0, trainingData.ki - 1);
-          localStorage.setItem('trainingData', JSON.stringify(trainingData));
-          localStorage.setItem('lastKiDecayTimestamp', new Date().toISOString());
-          updateUI();
-      }
+    if (trainingData.ki > 0) {
+      trainingData.ki = Math.max(0, trainingData.ki - 1);
+      localStorage.setItem('trainingData', JSON.stringify(trainingData));
+      localStorage.setItem('lastKiDecayTimestamp', new Date().toISOString());
+      updateUI();
+    }
   }, 10 * 60 * 1000); // 10 minutes in milliseconds
 }
 
@@ -530,7 +530,7 @@ function exportData(format) {
     const trainingCount = data.trainingHistory.length;
     const trainingByDate = groupByDate(data.trainingHistory);
     csvContent += `Training Logs History (Total ${trainingCount} entries)\n\n`;
-    Object.keys(trainingByDate).sort((a,b) => b.localeCompare(a)).forEach(date => {
+    Object.keys(trainingByDate).sort((a, b) => b.localeCompare(a)).forEach(date => {
       csvContent += `${date}\n\n`;
       trainingByDate[date].forEach(log => {
         const type = log.type || 'Unknown Type';
@@ -543,7 +543,7 @@ function exportData(format) {
     const kiCount = data.kiHistory.length;
     const kiByDate = groupByDate(kiHistory);
     csvContent += `Ki Logs History (Total ${kiCount} entries)\n\n`;
-    Object.keys(kiByDate).sort((a,b) => b.localeCompare(a)).forEach(date => {
+    Object.keys(kiByDate).sort((a, b) => b.localeCompare(a)).forEach(date => {
       csvContent += `${date}\n\n`;
       kiByDate[date].forEach(log => {
         const amount = log.amount !== undefined ? log.amount : (typeof log === 'number' ? log : '?');
@@ -552,7 +552,7 @@ function exportData(format) {
       csvContent += '\n';
     });
 
-    const supplementDates = Object.keys(data.supplementData).sort((a,b) => b.localeCompare(a));
+    const supplementDates = Object.keys(data.supplementData).sort((a, b) => b.localeCompare(a));
     csvContent += `Supplement Logs\n\n`;
     supplementDates.forEach(date => {
       csvContent += `${date}\n\n`;
@@ -634,10 +634,10 @@ function updateFormDropdown(level) {
   formDropdown.innerHTML = "";
 
   for (let i = 0; i < level; i++) {
-      const option = document.createElement("option");
-      option.value = i + 1;
-      option.textContent = SAIYAN_FORMS[i] || `Form ${i + 1}`;
-      formDropdown.appendChild(option);
+    const option = document.createElement("option");
+    option.value = i + 1;
+    option.textContent = SAIYAN_FORMS[i] || `Form ${i + 1}`;
+    formDropdown.appendChild(option);
   }
 
   formDropdown.value = level;
